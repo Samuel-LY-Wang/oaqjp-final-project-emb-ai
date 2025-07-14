@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request
 from EmotionDetection import emotion_detection
 
 app=Flask(__name__)
@@ -7,9 +7,10 @@ app=Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route("/emotionDetector/<textToAnalyze>")
-def display(textToAnalyze):
-    out = emotion_detection.emotion_detector(textToAnalyze)
+@app.route("/emotionDetector")
+def display():
+    text_to_analyze = request.args.get("textToAnalyze")
+    out = emotion_detection.emotion_detector(text_to_analyze)
     out_str = f'''For the given statement, the system response is 
     'anger': {out['anger']}, 
     'disgust': {out['disgust']}, 
