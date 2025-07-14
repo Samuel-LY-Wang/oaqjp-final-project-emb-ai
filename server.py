@@ -17,8 +17,10 @@ def display():
     'fear': {out['fear']}, 
     'joy': {out['joy']}, 
     'sadness': {out['sadness']}. 
-    The dominant emotion is <b>joy</b>.'''
-    return out_str
+    The dominant emotion is <b>{out['dominant_emotion']}</b>.'''
+    if out['dominant_emotion']:
+        return out_str
+    return "Invalid text! Please try again."
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -15,13 +15,25 @@ def get_dominant_emotion(in_dict):
 
 def emotion_detector(input_text):
     API_input={"raw_document": {"text": input_text}}
-    response = requests.post(url, headers=header, json=API_input).json()['emotionPredictions'][0]['emotion']
-    out = {
-        'anger': response['anger'],
-        'disgust': response['disgust'],
-        'fear': response['fear'],
-        'joy': response['joy'],
-        'sadness': response['sadness'],
-        'dominant_emotion': get_dominant_emotion(response)
-    }
-    return out
+    response = requests.post(url, headers=header, json=API_input)
+    if (response.status_code == 200):
+        response=response.json()['emotionPredictions'][0]['emotion']
+        out = {
+            'anger': response['anger'],
+            'disgust': response['disgust'],
+            'fear': response['fear'],
+            'joy': response['joy'],
+            'sadness': response['sadness'],
+            'dominant_emotion': get_dominant_emotion(response)
+        }
+        return out
+    elif (response.status_code==400):
+        out = {
+            'anger': None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None
+        }
+        return out
